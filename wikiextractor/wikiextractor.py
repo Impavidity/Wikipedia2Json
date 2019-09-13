@@ -615,15 +615,15 @@ class OutputSplitter:
     def write(self, x):
         url = x[0]
         text =x[1]
-        print("write:", url)
-        print("write:", text)
+        # print("write:", url)
+        # print("write:", text)
         text_len = len(text)
         if self.__cur_file_size + text_len / 2 > self.__max_file_size:
             self.__close_cur_file()
             self.__out_file, self.__current_filepath = self.__open_next_file()
             self.__line_number = 0
             self.__cur_file_size = 0
-        self.__out_file.write(str(text,'utf-8'))
+        self.__out_file.write(text)
         self.__cur_file_size += text_len
         self.__add_to_index(url)
         self.__line_number += 1
@@ -654,7 +654,7 @@ class OutputSplitter:
 
     def __get_dir_name(self):
         char1 = self.__dir_index % 26
-        char2 = self.__dir_index / 26 % 26
+        char2 = self.__dir_index // 26 % 26
         return os.path.join(self.__path_name, '%c%c' % (ord('A') + char2, ord('A') + char1))
 
     def __get_file_name(self):
